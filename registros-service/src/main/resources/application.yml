@@ -6,9 +6,9 @@ spring:
     name: registros-service
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/registros_db
-    username: postgres
-    password: postgres
+    url: ${DB_URL}
+    username: ${US_NAME}
+    password: ${DB_PASS}
     driver-class-name: org.postgresql.Driver
 
   jpa:
