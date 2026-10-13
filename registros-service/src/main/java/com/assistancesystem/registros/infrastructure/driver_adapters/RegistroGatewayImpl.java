@@ -8,6 +8,9 @@ import com.assistancesystem.registros.infrastructure.mapper.RegistroMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Adaptador de salida que implementa el puerto {@link RegistroGateway}
  * apoyándose en Spring Data JPA. Utiliza {@link RegistroMapper} para traducir
@@ -24,5 +27,13 @@ public class RegistroGatewayImpl implements RegistroGateway {
         RegistroJpaEntity jpaEntity = RegistroMapper.toEntity(registro);
         RegistroJpaEntity guardada = registroJpaRepository.save(jpaEntity);
         return RegistroMapper.toDomain(guardada);
+    }
+
+    @Override
+    public List<Registro> obtenerPorGestor(String idGestor) {
+        List<RegistroJpaEntity> entidades = registroJpaRepository.findByIdGestorOrderByFechaDesc(idGestor);
+        return entidades.stream()
+                .map(RegistroMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }
